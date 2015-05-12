@@ -8367,6 +8367,16 @@ a.fbtn:focus, a.fbtn:hover {
   color
 
 }
+
+.card-info {
+ 
+  font-size: 30px;
+  line-height: 28px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  color: #FF9800;
+
+}
 .card-header .card-heading {
   margin-top: 0;
   margin-bottom: 0;
