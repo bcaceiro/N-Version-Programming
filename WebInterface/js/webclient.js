@@ -52,6 +52,12 @@ function allInputsFilled(prefix) {
     return all_filled_and_valid;
 }
 
+function genericRangeValidation(id, min,max) {
+    var f1 = new LiveValidation(id);
+    f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
+    f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
+    f1.add( Validate.Numericality, { minimum: min, maximum: max}, {failureMessage: "Must be a number between " + min + " and " + max}); 
+}
 
 k_sample_count = 0
 function addKSamples(createOther,focus) {
@@ -59,12 +65,9 @@ function addKSamples(createOther,focus) {
     field='<div class="form-group form-group-label" ><div class="row"><div class="col-lg-6 col-sm-8"><label class="floating-label" for="mealtime-k-samples-PLACEHOLDER">Insert a value in a scale of 1 - 10</label><input class="form-control" id="mealtime-k-samples-PLACEHOLDER" type="text"></div>';
     field = field.split('PLACEHOLDER').join(++k_sample_count);
     $('#btn_k_samples').remove();
-    curr = $('#the_fields').html()
-    $('#the_fields').html(curr + field + btn_field + '</div>');
-    f2 = new LiveValidation("mealtime-k-samples-"+k_sample_count);
-    f2.add(Validate.Presence,  { failureMessage: "Please fill this field" });
-    f2.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
-    f2.add( Validate.Numericality, { minimum: 0, maximum: 10}, {failureMessage: "Must be a number between 0 and 10"}); 
+    $('#the_fields').append($(field+btn_field))
+    $('#the_fields')
+    genericRangeValidation("mealtime-k-samples-"+k_sample_count, 0, 10);
 
     if (focus)
         $('#mealtime-k-samples-'+k_sample_count).focus();
@@ -79,12 +82,8 @@ function addKDropSamples(createOther,focus) {
     field='<div class="form-group form-group-label" ><div class="row"><div class="col-lg-6 col-sm-8"><label class="floating-label" for="mealtime-k-samples-values-PLACEHOLDER">Insert a value in a scale between 25 to 100 mg/dl</label><input class="form-control" id="mealtime-k-samples-values-PLACEHOLDER" type="text"></div>';
     field = field.split('PLACEHOLDER').join(++k_sample_values_count);
     $('#btn_k_samples_values').remove();
-    curr = $('#the_fields_values').html()
-    $('#the_fields_values').html(curr + field + btn_field + '</div>');
-    var f1 = new LiveValidation('mealtime-k-samples-values-'+k_sample_values_count);
-    f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
-    f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
-    f1.add( Validate.Numericality, { minimum: 25, maximum: 100}, {failureMessage: "Must be a number between 25 and 100"}); 
+    $('#the_fields_values').append($(field+btn_field))
+    genericRangeValidation("mealtime-k-samples-values-"+k_sample_values_count, 25, 100);
 
     if (focus)
         $('#mealtime-k-samples-values-'+k_sample_values_count).focus();
