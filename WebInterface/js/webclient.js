@@ -41,10 +41,13 @@ function doSubmit() {
 
 function allInputsFilled(prefix) {
     all_filled_and_valid = true;
-    $('input[id*=' + prefix + ']').each( function(i, e)  { obj = $(e); if ( obj.val() == '' ||  obj.hasClass('LV_invalid_field') )  all_filled_and_valid = false; 
-    /*console.log(e); console.log(obj.val()); console.log(obj.hasClass('LV_invalid_field'));*/
-
-});
+    $('input[id*=' + prefix + ']').each(
+        function(i, e)  {
+            obj = $(e);
+            if ( obj.val() == '' ||  obj.hasClass('LV_invalid_field') ) 
+                all_filled_and_valid = false; 
+            /*console.log(e); console.log(obj.val()); console.log(obj.hasClass('LV_invalid_field'));*/
+        });
 
     return all_filled_and_valid;
 }
