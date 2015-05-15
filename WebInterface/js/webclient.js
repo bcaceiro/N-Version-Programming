@@ -84,7 +84,7 @@ function addKDropSamples(createOther,focus) {
     var f1 = new LiveValidation('mealtime-k-samples-values-'+k_sample_values_count);
     f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
     f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
-    f1.add( Validate.Numericality, { minimum: 0, maximum: 10}, {failureMessage: "Must be a number between 0 and 10"}); 
+    f1.add( Validate.Numericality, { minimum: 25, maximum: 100}, {failureMessage: "Must be a number between 0 and 10"}); 
 
     if (focus)
         $('#mealtime-k-samples-values-'+k_sample_values_count).focus();
