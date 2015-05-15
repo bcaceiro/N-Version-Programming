@@ -1,4 +1,4 @@
-package client;
+package client.Server;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.HandlerList;

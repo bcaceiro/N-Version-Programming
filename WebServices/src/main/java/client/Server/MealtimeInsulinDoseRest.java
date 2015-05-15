@@ -1,5 +1,8 @@
-package client;
+package client.Server;
 
+import client.Voter.InsulineServiceMealtimeInsulinDose;
+import client.Voter.Voter;
+import client.Voter.VoterResults;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -24,6 +27,9 @@ public class MealtimeInsulinDoseRest extends HttpServlet
         System.out.println(preMealBloodSugar);
         System.out.println(targetBloodSugar);
         System.out.println(personalSensitivity);
-        response.getWriter().write("80");
+        Voter v = new Voter(new InsulineServiceMealtimeInsulinDose(carbohydrateAmount,carbohydrateToInsulinRatio,preMealBloodSugar,targetBloodSugar,personalSensitivity));
+        VoterResults voterResults = v.vote();
+        String json = new Gson().toJson(voterResults);
+        response.getWriter().write(json);
     }
 }
