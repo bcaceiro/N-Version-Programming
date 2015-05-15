@@ -98,3 +98,23 @@ function listenToAllInputFields() {
 
     anon = function() { validateForm(); setTimeout(anon,100);}; setTimeout(anon,100);
 }
+
+function doSubmit() {
+    activeTab = getSelectedTabId();
+    if (activeTab == 'standard') {
+        parameters = {carbohydrateAmount: $('#standard-float-text1').val(),
+                      carbohydrateToInsulinRatio: $('#standard-float-text2').val(),
+                    preMealBloodSugar: $('#standard-float-text3').val(),
+                    targetBloodSugar: $('#standard-float-text4').val(),
+                    personalSensitivity: $('#standard-float-text5').val()};
+
+        $.ajax({
+          method: "GET",
+          url: "http://localhost:8080/REST/MealtimeInsulinDose",
+          data: parameters,
+            success: function(data, status, jqXHR) {
+                console.log(data)
+            }
+        });
+    }
+}
