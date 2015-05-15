@@ -76,7 +76,7 @@ function addKSamples(createOther,focus) {
 k_sample_values_count = 0
 function addKDropSamples(createOther,focus) {
     btn_field='<div class="col-lg-6 col-sm-8" id="btn_k_samples_values"><div class="avatar avatar-green avatar-sm"><button class="avatar avatar-red avatar-sm icon icon-add"  onclick="addKDropSamples(true,true);"></button></div></div>'
-    field='<div class="form-group form-group-label" ><div class="row"><div class="col-lg-6 col-sm-8"><label class="floating-label" for="mealtime-k-samples-values-PLACEHOLDER">Insert a value in a scale of 1 - 10</label><input class="form-control" id="mealtime-k-samples-values-PLACEHOLDER" type="text"></div>';
+    field='<div class="form-group form-group-label" ><div class="row"><div class="col-lg-6 col-sm-8"><label class="floating-label" for="mealtime-k-samples-values-PLACEHOLDER">Insert a value in a scale between 25 to 100 mg/dl</label><input class="form-control" id="mealtime-k-samples-values-PLACEHOLDER" type="text"></div>';
     field = field.split('PLACEHOLDER').join(++k_sample_values_count);
     $('#btn_k_samples_values').remove();
     curr = $('#the_fields_values').html()
