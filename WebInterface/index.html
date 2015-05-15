@@ -11,7 +11,8 @@
 
 	  <!--  the LiveValidation source to be tested -->
   <script type="text/javascript" src="js/livevalidation_standalone.compressed.js"></script>
-
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="js/webclient.js"></script>
 	<!-- favicon -->
 	<!-- ... -->
 
@@ -80,13 +81,13 @@
 				<nav class="tab-nav tab-nav-alt">
 							<ul class="nav nav-justified">
 								<li class="active">
-									<a class="waves-color-alt waves-effect" data-toggle="tab" href="#first-tab-alt"> <span class="icon icon-group"></span> &nbsp; Mealtime insulin dose - Standard </a>
+									<a class="waves-color-alt waves-effect" data-toggle="tab" href="#first-tab-alt" id='standard'> <span class="icon icon-group"></span> &nbsp; Mealtime insulin dose - Standard </a>
 								</li>
 								<li>
-									<a class="waves-color-alt waves-effect" data-toggle="tab" href="#second-tab-alt"> <span class="icon icon-person"></span>&nbsp;  Mealtime insulin dose - Personal</a>
+									<a class="waves-color-alt waves-effect" data-toggle="tab" href="#second-tab-alt" id='mealtime'> <span class="icon icon-person"></span>&nbsp;  Mealtime insulin dose - Personal</a>
 								</li>
 								<li>
-									<a class="waves-color-alt waves-effect" data-toggle="tab" href="#third-tab-alt"><span class="icon icon-sort"></span>&nbsp; Background Insulin Dose</a>
+									<a class="waves-color-alt waves-effect" data-toggle="tab" href="#third-tab-alt" id='last'><span class="icon icon-sort"></span>&nbsp; Background Insulin Dose</a>
 								</li>
 							</ul>
 				</nav>
@@ -103,10 +104,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text1">Insert a value in grams (between 45g and 145g)</label>
-											<input class="form-control" id="float-text1" type="text">
+											<label class="floating-label" for="standard-float-text1">Insert a value in grams (between 45g and 145g)</label>
+											<input class="form-control" id="standard-float-text1" type="text">
 		  									 <script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text1');
+		     									var f1 = new LiveValidation('standard-float-text1');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 45, maximum: 135}, {failureMessage: "Must be a number between 60g and 120g!"}); 
@@ -126,9 +127,9 @@
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
 											<label class="floating-label" for="float-text2">Insert a value in grams (between 9 and 16g)</label>
-											<input class="form-control" id="float-text2" value ="12" type="text">
+											<input class="form-control" id="standard-float-text2" value ="12" type="text">
 											 <script type="text/javascript">
-		     									var f2 = new LiveValidation('float-text2');
+		     									var f2 = new LiveValidation('standard-float-text2');
 		     									f2.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f2.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f2.add( Validate.Numericality, { minimum: 9, maximum: 16}, {failureMessage: "Must be a number between 10g and 15g!"}); 
@@ -143,10 +144,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text3">Insert a value (between 88 and 282 mg/dl)</label>
-											<input class="form-control" id="float-text3" type="text">
+											<label class="floating-label" for="standard-float-text3">Insert a value (between 88 and 282 mg/dl)</label>
+											<input class="form-control" id="standard-float-text3" type="text">
 											 <script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text3');
+		     									var f1 = new LiveValidation('standard-float-text3');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 88, maximum: 282}, {failureMessage: "Must be a number between 120g and 250g!"} ); 
@@ -161,10 +162,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text4">Insert a value (between 70 and 130mg/dl)</label>
-											<input class="form-control" id="float-text4" type="text">
+											<label class="floating-label" for="standard-float-text4">Insert a value (between 70 and 130mg/dl)</label>
+											<input class="form-control" id="standard-float-text4" type="text">
 											 <script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text4');
+		     									var f1 = new LiveValidation('standard-float-text4');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 70, maximum: 130}, {failureMessage: "Must be a number between 80 and 120mg/dl!"} ); 
@@ -179,10 +180,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text5">Insert a value (one insulin unit normally drops blood sugar by 50mg/dl)</label>
-											<input class="form-control" id="float-text5" value="50" type="text">
+											<label class="floating-label" for="standard-float-text5">Insert a value (one insulin unit normally drops blood sugar by 50mg/dl)</label>
+											<input class="form-control" id="standard-float-text5" value="50" type="text">
 											 <script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text5');
+		     									var f1 = new LiveValidation('standard-float-text5');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 0, maximum: 119}, {failureMessage: "Must be a number between 15 and 100mg/dl!"} ); 
@@ -197,7 +198,7 @@
 						
 							<!-- BUTTONS  ( SUBMIT |  VIEW DETAILS) -->
 							<div class="form-group-btn">
-								<button class="btn btn-blue waves-button waves-light waves-effect" id ="register" disabled="disabled" type="submit">Submit Button</button>
+								<button class="btn btn-blue waves-button waves-light waves-effect" id ="standard-submit" disabled="disabled" onclick="doSubmit();">Submit Button</button>
 								<button class="btn waves-button waves-effect" type="button">Cancel Button</button>
 							</div>	
 							<!-- END OF BUTTONS  ( SUBMIT |  VIEW DETAILS) -->
@@ -213,12 +214,12 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text6">Insert a value in kilograms</label>
-											<input class="form-control" id="float-text6" type="text">
+											<label class="floating-label" for="last-float-text6">Insert a value in kilograms</label>
+											<input class="form-control" id="last-float-text6" type="text">
 										</div>
 
 										<script type="text/javascript">
-		     									var f100 = new LiveValidation('float-text6');
+		     									var f100 = new LiveValidation('last-float-text6');
 		     									f100.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f100.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f100.add( Validate.Numericality, { minimum: 18, maximum: 152}, {failureMessage: "Must be a number between 18kg and 152kg"}); 
@@ -228,7 +229,7 @@
 							</fieldset>
 							<!-- BUTTONS  ( SUBMIT |  VIEW DETAILS) -->
 							<div class="form-group-btn">
-								<button class="btn btn-blue waves-button waves-light waves-effect" type="submit">Submit Button</button>
+								<button class="btn btn-blue waves-button waves-light waves-effect" type="submit" id='last-submit'>Submit Button</button>
 								<button class="btn btn-green waves-button waves-effect" type="button">Show Technical Information</button>
 							</div>	
 							<!-- END OF BUTTONS  ( SUBMIT |  VIEW DETAILS) -->
@@ -317,10 +318,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text7">Insert a value in grams (between 45g and 135g)</label>
-											<input class="form-control" id="float-text7" type="text">
+											<label class="floating-label" for="mealtime-float-text7">Insert a value in grams (between 45g and 135g)</label>
+											<input class="form-control" id="mealtime-float-text7" type="text">
 		  									<script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text7');
+		     									var f1 = new LiveValidation('mealtime-float-text7');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 45, maximum: 135}, {failureMessage: "Must be a number between 60g and 120g!"}); 
@@ -335,10 +336,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text8">Insert a value in grams (between 9 and 16g)</label>
-											<input class="form-control" id="float-text8" value ="12" type="text">
+											<label class="floating-label" for="mealtime-float-text8">Insert a value in grams (between 9 and 16g)</label>
+											<input class="form-control" id="mealtime-float-text8" value ="12" type="text">
 											<script type="text/javascript">
-		     									var f2 = new LiveValidation('float-text8');
+		     									var f2 = new LiveValidation('mealtime-float-text8');
 		     									f2.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f2.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f2.add( Validate.Numericality, { minimum: 9, maximum: 16}, {failureMessage: "Must be a number between 10g and 15g!"}); 
@@ -353,10 +354,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text9">Insert a value (between 88 and 282 mg/dl)</label>
-											<input class="form-control" id="float-text9" type="text">
+											<label class="floating-label" for="mealtime-float-text9">Insert a value (between 88 and 282 mg/dl)</label>
+											<input class="form-control" id="mealtime-float-text9" type="text">
 											<script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text9');
+		     									var f1 = new LiveValidation('mealtime-float-text9');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 88, maximum: 282}, {failureMessage: "Must be a number between 120g and 250g!"}); 
@@ -371,10 +372,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text10">Insert a value (between 70 and 130mg/dl)</label>
-											<input class="form-control" id="float-text10" type="text">
+											<label class="floating-label" for="mealtime-float-text10">Insert a value (between 70 and 130mg/dl)</label>
+											<input class="form-control" id="mealtime-float-text10" type="text">
 											<script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text10');
+		     									var f1 = new LiveValidation('mealtime-float-text10');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 70, maximum: 130}, {failureMessage: "Must be a number between 80 and 120mg/dl!"}); 
@@ -388,10 +389,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text11">Insert a value in a scale of 0 - 10</label>
-											<input class="form-control" id="float-text11" type="text">
+											<label class="floating-label" for="mealtime-float-text11">Insert a value in a scale of 0 - 10</label>
+											<input class="form-control" id="mealtime-float-text11" type="text">
 											<script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text11');
+		     									var f1 = new LiveValidation('mealtime-float-text11');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 0, maximum: 10}, {failureMessage: "Must be a number between 0 and 10"}); 
@@ -403,13 +404,13 @@
 															
 							<fieldset>
 								<legend>K samples of physical activity level in some day</legend>
-								<div class="form-group form-group-label" id="merda">
+								<div class="form-group form-group-label" id="the_fields">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text12">Insert a value in a scale of 1 - 10</label>
-											<input class="form-control" id="float-text12" type="text">
+											<label class="floating-label" for="mealtime-k-samples-1">Insert a value in a scale of 1 - 10</label>
+											<input class="form-control" id="mealtime-k-samples-1" type="text">
 											<script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text12');
+		     									var f1 = new LiveValidation('mealtime-k-samples-1');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 0, maximum: 10}, {failureMessage: "Must be a number between 0 and 10"}); 
@@ -429,10 +430,10 @@
 								<div class="form-group form-group-label">
 									<div class="row">
 										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="float-text13">Insert a value in a scale between 25 to 100 mg/dl</label>
-											<input class="form-control" id="float-text13" type="text">
+											<label class="floating-label" for="mealtime-k-samples-values-1">Insert a value in a scale between 25 to 100 mg/dl</label>
+											<input class="form-control" id="mealtime-k-samples-values-1" type="text">
 											<script type="text/javascript">
-		     									var f1 = new LiveValidation('float-text13');
+		     									var f1 = new LiveValidation('mealtime-k-samples-values-1');
 		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
 		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
 		     									f1.add( Validate.Numericality, { minimum: 0, maximum: 10}, {failureMessage: "Must be a number between 0 and 10"}); 
@@ -466,8 +467,11 @@
 
 
 	<script src="js/base.min.js" type="text/javascript"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/
-
+	<script>
+		$(document).ready(function() {
+			listenToAllInputFields();
+		});
+	</script>
 
 </body>
 </html>
