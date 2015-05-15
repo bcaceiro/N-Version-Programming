@@ -404,47 +404,13 @@
 															
 							<fieldset>
 								<legend>K samples of physical activity level in some day</legend>
-								<div class="form-group form-group-label" id="the_fields">
-									<div class="row">
-										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="mealtime-k-samples-1">Insert a value in a scale of 1 - 10</label>
-											<input class="form-control" id="mealtime-k-samples-1" type="text">
-											<script type="text/javascript">
-		     									var f1 = new LiveValidation('mealtime-k-samples-1');
-		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
-		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
-		     									f1.add( Validate.Numericality, { minimum: 0, maximum: 10}, {failureMessage: "Must be a number between 0 and 10"}); 
-		     								</script>  
-										</div>
-										<div class="col-lg-6 col-sm-8">
-											<div class="avatar avatar-green avatar-sm">
-												<button class="avatar avatar-red avatar-sm icon icon-add"  onclick="add_fields();"  type="submit"></button>
-											</div>
-										</div>
-									</div>			
+								<div id="the_fields">
 								</div>
 							</fieldset>
 
 							<fieldset>
 								<legend>K samples of drops in blood sugar from one unit of insulin in that day (25 to 100  mg/dl)</legend>
-								<div class="form-group form-group-label">
-									<div class="row">
-										<div class="col-lg-6 col-sm-8">
-											<label class="floating-label" for="mealtime-k-samples-values-1">Insert a value in a scale between 25 to 100 mg/dl</label>
-											<input class="form-control" id="mealtime-k-samples-values-1" type="text">
-											<script type="text/javascript">
-		     									var f1 = new LiveValidation('mealtime-k-samples-values-1');
-		     									f1.add(Validate.Presence,  { failureMessage: "Please fill this field" });
-		     									f1.add(Validate.Numericality, { onlyInteger: true } , { failureMessage: "Must be a number!" });
-		     									f1.add( Validate.Numericality, { minimum: 0, maximum: 10}, {failureMessage: "Must be a number between 0 and 10"}); 
-		     								</script>  
-										</div>
-										<div class="col-lg-6 col-sm-8">
-											<div class="avatar avatar-green avatar-sm">
-												<button class="avatar avatar-red avatar-sm icon icon-add" id="caralho" type="submit"></button>
-											</div>
-										</div>
-									</div>	
+								<div id="the_fields_values">
 								</div>								
 							</fieldset>
 						</form>
@@ -470,6 +436,8 @@
 	<script>
 		$(document).ready(function() {
 			listenToAllInputFields();
+			addKSamples(false,false);
+			addKDropSamples(false,false);
 		});
 	</script>
 
