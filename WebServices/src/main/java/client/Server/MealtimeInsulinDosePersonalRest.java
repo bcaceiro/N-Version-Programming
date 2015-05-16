@@ -23,20 +23,24 @@ public class MealtimeInsulinDosePersonalRest extends HttpServlet
         return ret;
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int carbohydrateAmount = Integer.valueOf(request.getParameter("carbohydrateAmount"));
-        int carbohydrateToInsulinRatio = Integer.valueOf(request.getParameter("carbohydrateToInsulinRatio"));
-        int preMealBloodSugar = Integer.valueOf(request.getParameter("preMealBloodSugar"));
-        int targetBloodSugar = Integer.valueOf(request.getParameter("targetBloodSugar"));
-        int physicalActivityLevel = Integer.valueOf(request.getParameter("physicalActivityLevel"));
+        try {
+            int carbohydrateAmount = Integer.valueOf(request.getParameter("carbohydrateAmount"));
+            int carbohydrateToInsulinRatio = Integer.valueOf(request.getParameter("carbohydrateToInsulinRatio"));
+            int preMealBloodSugar = Integer.valueOf(request.getParameter("preMealBloodSugar"));
+            int targetBloodSugar = Integer.valueOf(request.getParameter("targetBloodSugar"));
+            int physicalActivityLevel = Integer.valueOf(request.getParameter("physicalActivityLevel"));
 
-        int[] physicalActivitySamples = toIntegerArray(request.getParameter("physicalActivitySamples").split(","));
-        int[] bloodSugarDropSamples = toIntegerArray(request.getParameter("bloodSugarDropSamples").split(","));
-        System.out.println(Arrays.toString(physicalActivitySamples));
-        System.out.println(Arrays.toString(bloodSugarDropSamples));
-        Voter v = new Voter(new InsulineServicePersonalSensitivityToInsuline(carbohydrateAmount,carbohydrateToInsulinRatio,preMealBloodSugar,targetBloodSugar,physicalActivityLevel,physicalActivitySamples,bloodSugarDropSamples));
-        VoterResults voterResults = v.vote();
-        System.out.println(voterResults);
-        String json = new Gson().toJson(voterResults);
-        response.getWriter().write(json);
+            int[] physicalActivitySamples = toIntegerArray(request.getParameter("physicalActivitySamples").split(","));
+            int[] bloodSugarDropSamples = toIntegerArray(request.getParameter("bloodSugarDropSamples").split(","));
+            System.out.println(Arrays.toString(physicalActivitySamples));
+            System.out.println(Arrays.toString(bloodSugarDropSamples));
+            Voter v = new Voter(new InsulineServicePersonalSensitivityToInsuline(carbohydrateAmount,carbohydrateToInsulinRatio,preMealBloodSugar,targetBloodSugar,physicalActivityLevel,physicalActivitySamples,bloodSugarDropSamples));
+            VoterResults voterResults = v.vote();
+            System.out.println(voterResults);
+            String json = new Gson().toJson(voterResults);
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            response.getWriter().write("{urls:[], majority:-1, reason: 'Invalid Parameters'};");
+        }
     }
 }

@@ -18,11 +18,15 @@ public class BackgroundInsulinDoseRest extends HttpServlet
 {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int weight = Integer.valueOf(request.getParameter("weight"));
-        Voter v = new Voter(new InsulineServiceBackgroundInsulineDose(weight));
-        VoterResults voterResults = v.vote();
-        System.out.println(voterResults);
-        String json = new Gson().toJson(voterResults);
-        response.getWriter().write(json);
+        try {
+            int weight = Integer.valueOf(request.getParameter("weight"));
+            Voter v = new Voter(new InsulineServiceBackgroundInsulineDose(weight));
+            VoterResults voterResults = v.vote();
+            System.out.println(voterResults);
+            String json = new Gson().toJson(voterResults);
+            response.getWriter().write(json);
+        } catch (Exception e) {
+            response.getWriter().write("{urls:[], majority:-1, reason: 'Invalid Parameters'};");
+        }
     }
 }
