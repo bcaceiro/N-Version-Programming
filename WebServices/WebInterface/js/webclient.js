@@ -12,15 +12,17 @@ function getSelectedTabId() {
 }
 
 function getActiveButton() {
-    return $('#' + getSelectedTabId() + '-submit')
+    return $('#' + getSelectedTabId() + '-submit');
 }
 
 function enableSubmitButton() {
-    getActiveButton().removeAttr('disabled')
+    getActiveButton().removeAttr('disabled');
 }
 
 function disableSubmitButton() {    
-    getActiveButton().attr('disabled', 'disabled')
+    getActiveButton().attr('disabled', 'disabled');
+    $('[id*=-technical-info-btn]').attr('disabled', 'disabled');
+    $('#technical-info').hide();
 }
 
 function fireLater(f) {
@@ -131,7 +133,6 @@ function setTechnicalInfo(result) {
     //FIXME
     //$('#technical-info').show();
     $('#no-webservices').html( ( result.urls.length ? result.urls.length : 'N/A')   +'<br/> <span style="font-size: 55%">' + result.urls.join('<br/>') + '</span>' );
-
     if ( result.majority != -1 ) {
         $('#results-webservices').html('<span style="font-size: 100%">' + result.results.join('<br/>') + '</span>');
         $('#majority-result').html(result.majority + ' (' + result.reason + ')');
@@ -139,6 +140,7 @@ function setTechnicalInfo(result) {
         $('#majority-result').html();
 
     }
+    $('[id*=-technical-info-btn]').removeAttr('disabled');
     /*
     #no-webservices
     #results-webservices
@@ -149,6 +151,7 @@ function setTechnicalInfo(result) {
 function hideResults() {
     $('#results').hide();
     $('#technical-info').hide();
+    $('[id*=-technical-info-btn]').html('Show Technical Information');
 }
 
 function doSubmit() {

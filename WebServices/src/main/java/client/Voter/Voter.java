@@ -42,7 +42,7 @@ public class Voter {
             int[] results = new int[futures.size()];
             for ( int i = 0; i < futures.size(); i++) {
                 try {
-                    results[i] = futures.get(i).isDone() ? futures.get(i).get().result : -1;
+                    results[i] = futures.get(i).isCancelled() ? futures.get(i).get().result : -1;
                     newUrls[i] = futures.get(i).get().url;
                 } catch (Exception e) {
                     results[i] = -1;
