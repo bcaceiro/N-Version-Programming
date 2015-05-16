@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://server/" xmlns:tns="http://server/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="backgroundInsulinDose" type="tns:backgroundInsulinDose"/>
+
+  <xs:element name="backgroundInsulinDoseResponse" type="tns:backgroundInsulinDoseResponse"/>
+
+  <xs:element name="mealtimeInsulinDose" type="tns:mealtimeInsulinDose"/>
+
+  <xs:element name="mealtimeInsulinDoseResponse" type="tns:mealtimeInsulinDoseResponse"/>
+
+  <xs:element name="personalSensitivityToInsulin" type="tns:personalSensitivityToInsulin"/>
+
+  <xs:element name="personalSensitivityToInsulinResponse" type="tns:personalSensitivityToInsulinResponse"/>
+
+  <xs:complexType name="personalSensitivityToInsulin">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int"/>
+      <xs:element name="arg1" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="arg2" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="personalSensitivityToInsulinResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="backgroundInsulinDose">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="backgroundInsulinDoseResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mealtimeInsulinDose">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element name="arg3" type="xs:int"/>
+      <xs:element name="arg4" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="mealtimeInsulinDoseResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
