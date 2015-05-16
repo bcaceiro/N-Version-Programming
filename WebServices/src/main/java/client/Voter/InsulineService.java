@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by jorl17 on 15/05/15.
  */
-public abstract class InsulineService implements Callable<Integer> {
+public abstract class InsulineService implements Callable<ResultPair> {
     protected InsulinDoseCalculator service = null;
     private String url;
     public InsulineService(String url) {
@@ -22,8 +22,7 @@ public abstract class InsulineService implements Callable<Integer> {
 
     private void connect() {
         try {
-            InsulinDoseCalculatorService insulinDoseCalculatorService = new InsulinDoseCalculatorService(new URL(url));
-            service = insulinDoseCalculatorService.getInsulinDoseCalculatorPort();
+            service = new InsulinDoseCalculatorService(new URL(url)).getInsulinDoseCalculatorPort();
             //service = new InsulinDoseCalculatorService(new URL("http://qcs12.dei.uc.pt:8080/insulin?wsdl")).getInsulinDoseCalculatorPort();
             //service = new InsulinDoseCalculatorService(new URL("http://qcs18.dei.uc.pt:8080/insulin?wsdl")).getInsulinDoseCalculatorPort();
             //service = new InsulinDoseCalculatorService(new URL("http://localhost:9000/InsulinDoseCalculator?wsdl")).getInsulinDoseCalculatorPort();
@@ -43,9 +42,9 @@ public abstract class InsulineService implements Callable<Integer> {
     }
 
     @Override
-    public Integer call() throws Exception {
+    public ResultPair call() throws Exception {
         connect();
-        return service == null ? -1 : doWork();
+        return service == null ? new ResultPair(url,-1) :  new ResultPair(url,doWork());
     }
 
     protected abstract int doWork();

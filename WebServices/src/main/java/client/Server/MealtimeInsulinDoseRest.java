@@ -29,6 +29,7 @@ public class MealtimeInsulinDoseRest extends HttpServlet
         System.out.println(personalSensitivity);
         Voter v = new Voter(new InsulineServiceMealtimeInsulinDose(carbohydrateAmount,carbohydrateToInsulinRatio,preMealBloodSugar,targetBloodSugar,personalSensitivity));
         VoterResults voterResults = v.vote();
+        System.out.println(voterResults);
         String json = new Gson().toJson(voterResults);
         response.getWriter().write(json);
     }

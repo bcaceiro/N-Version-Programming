@@ -18,37 +18,71 @@ public class Voter {
     }
 
     public Voter(InsulineService factory) {
-        this ( new String[] { "http://qcs01.dei.uc.pt:8080/InsulinDoseCalculator?wsdl",
+        this ( new String[] { "http://qcs06.dei.uc.pt:8080/insulin?wsdl",
+                        "http://vm-sgd17.dei.uc.pt:80/InsulinDoseCalculator?wsdl",
                         "http://qcs01.dei.uc.pt:8080/InsulinDoseCalculator?wsdl",
-                        "http://qcs01.dei.uc.pt:8080/InsulinDoseCalculator?wsdl"},
-                4000, factory);
+                        "http://qcs12.dei.uc.pt:8080/insulin?wsdl",
+                        "http://qcs07.dei.uc.pt:8080/insulin?wsdl",
+                        "http://qcs10.dei.uc.pt:8080/insulin?wsdl",
+                        "http://liis-lab.dei.uc.pt:8080/Server?wsdl"},
+                3500, factory);
     }
 
     private int[] invokeServices() {
         ExecutorService executorService = Executors.newFixedThreadPool(urls.length);
-        Set<Callable<Integer>> callables = new HashSet<Callable<Integer>>();
+        Set<Callable<ResultPair>> callables = new HashSet<>();
 
         for (String url : urls)
             callables.add(factory.constructNew().setUrl(url));
 
         try {
-            List<Future<Integer>> futures;
+            List<Future<ResultPair>> futures;
+            String[] newUrls = new String[urls.length];
             futures = executorService.invokeAll(callables, maxTime, TimeUnit.MILLISECONDS);
-            executorService.shutdownNow();
             int[] results = new int[futures.size()];
-            for ( int i = 0; i < futures.size(); i++)
+            for ( int i = 0; i < futures.size(); i++) {
                 try {
-                    results[i] = futures.get(i).isDone() ? futures.get(i).get() : -1;
+                    results[i] = futures.get(i).isDone() ? futures.get(i).get().result : -1;
+                    newUrls[i] = futures.get(i).get().url;
                 } catch (Exception e) {
-                        results[i] = -1;
+                    results[i] = -1;
+                    newUrls[i] = null;
                 }
+            }
+
+            fixUrls(newUrls, urls);
+            urls = newUrls;
 
             return results;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        return new int[] {-1, -1, -1};
+        int[] results = new int[urls.length];
+        for (int i = 0;i < results.length; i++) results[i] = -1;
+        return results;
+    }
+
+    // Depois de escrever isto, só me resta o suicídio -- Maxi.
+    private boolean existsInArray(String[] array, String elem) {
+        for ( String e : array )
+            if ( e!=null && e.equals(elem) )
+                return true;
+        return false;
+    }
+
+    private void fixUrls(String[] newUrls, String[] urls) {
+        ArrayList<String> missingUrls = new ArrayList<>();
+        for (String url : urls) {
+            if (!existsInArray(newUrls, url))
+                missingUrls.add(url);
+        }
+
+        int c = 0;
+        for (int i = 0; i < newUrls.length; i++)
+            if ( newUrls[i] == null )
+                newUrls[i] = missingUrls.get(c++);
+
     }
 
     private int[] getMajority(int[] results) {
@@ -100,8 +134,8 @@ public class Voter {
 
     private ArrayList<Integer> findEquivalent(int[] results, int val) {
         ArrayList<Integer> equiv = new ArrayList<Integer>();
-        for ( int i = 0; i < results.length &&  results[i] <= val +1; i++)
-            if ( results[i] != -1 && ( (results[i] - 1 == val) || (results[i] + 1 == val)))
+        for ( int i = 0; i < results.length && results[i] <= val+1; i++)
+            if ( results[i] != -1 && ( (results[i] - 1 == val) || (results[i] + 1 == val) || (results[i] == val)))
                 equiv.add(results[i]);
 
         return equiv;
@@ -112,13 +146,11 @@ public class Voter {
 
         int min = findMinExcludeInvalid(results), max = results[results.length-1];
 
-        int bestFound = min;
         ArrayList<Integer> best = findEquivalent(results, min);
         for (int i = min+1; i <= max; i++) {
             ArrayList<Integer> thisCount = findEquivalent(results, i);
             if (thisCount.size() > best.size()) {
                 best = thisCount;
-                bestFound = i;
             }
         }
 
@@ -136,23 +168,27 @@ public class Voter {
 
     public VoterResults vote() {
         long targetTime = System.nanoTime() + maxTime * 1000000L;
-
+        int[] resultsOrig;
         do {
+            System.out.println("Voting!");
             int[] results = invokeServices();/*{ 1, 1, 1, 7, 3, 3, 3, 9, 9, 9, 9, 9};*/
-            int[] resultsOrig = results.clone();
+            resultsOrig = new int[results.length];
+            System.arraycopy(results, 0, resultsOrig, 0, results.length);
             Arrays.sort(results);
             int[] tmp = getMajority(results);
             int major = tmp[0], count = tmp[1];
             if (count >= results.length / 2.0 && major != -1) {
-                return new VoterResults(major, count, resultsOrig, urls);
+                return new VoterResults("majority", major, count, resultsOrig, urls);
             } else {
                 ArrayList<Integer> majorityRange = findMajorityRangeWithEquivalence(results);
+                //System.out.println("Majority range: ");
+                //System.out.println(majorityRange);
                 if ( majorityRange.size() > results.length / 2.0 )
-                    return new VoterResults(median(majorityRange), resultsOrig, urls);
+                    return new VoterResults("median", median(majorityRange), -1, resultsOrig, urls);
             }
         } while ( System.nanoTime() < targetTime );
 
-        return new VoterResults("Timeout");
+        return new VoterResults("Timeout", -1, -1, resultsOrig, urls);
     }
 
     public static void main(String[] args) {
@@ -167,7 +203,7 @@ public class Voter {
             for (int r : results.results )
                 System.out.println(r);
         } else {
-            System.out.println(results.reasonForFailure);
+            System.out.println(results.reason);
         }
     }
 }

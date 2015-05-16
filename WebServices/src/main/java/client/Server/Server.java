@@ -29,6 +29,8 @@ public class Server extends Thread{
         jettyServer.setHandler(handlers);
 
         context.addServlet(new ServletHolder(new MealtimeInsulinDoseRest()),"/MealtimeInsulinDose");
+        context.addServlet(new ServletHolder(new BackgroundInsulinDoseRest()),"/BackgroundInsulinDose");
+        context.addServlet(new ServletHolder(new MealtimeInsulinDosePersonalRest()), "/MealTimeInsulinDosePersonal");
 
         try {
             try {
